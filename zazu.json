@@ -8,7 +8,7 @@
         "type": "PrefixScript",
         "prefix": "gist",
         "space": true,
-        "args": "Required",
+        "args": "Optional",
         "script": "src/gist.js",
         "connections": ["Process"]
       }
@@ -18,7 +18,7 @@
         "id": "Process",
         "type": "UserScript",
         "script": "src/gistUpload.js",
-        "connections": ["Copy","Link","Notify"]
+        "connections": ["Copy", "Link", "Notify"]
       },
       {
         "id": "Copy",

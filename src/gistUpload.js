@@ -1,29 +1,22 @@
 const Octokat = require('octokat')
-module.exports = (pluginContext) => {
-  return (query, env = {}) => {
-    const { cwd, console } = pluginContext
-    return new Promise((resolve, reject) => {
-      const clipboard = pluginContext.clipboard
-      const gist = clipboard.readText()
-      const octo = new Octokat({token: env.token})
-      const obj = {
-        "description":"Personal Gist",
-        "public":false,
-        "files":{
+
+module.exports = ({ clipboard }) => {
+  return (query, { token }) => {
+    const octo = new Octokat({ token })
+    const gist = clipboard.readText()
+    const fileName = query || 'gistfile1.txt'
+    return octo.gists.create({
+      description: 'Personal Gist',
+      public: false,
+      files: {
+        [fileName]: {
+          content: gist,
         }
-      }
-      obj['files'][query] = {
-        "content": gist
-      }
-      const result = octo.gists.create(obj)
-      resolve([
-        {
-          icon: 'fa-github-alt',
-          title: result,
-          subtitle: '',
-          value: '',
-        }
-      ])
+      },
+    }).then((res) => {
+      return res.htmlUrl
+    }).catch(() => {
+      return 'You have an invalid token'
     })
   }
 }
