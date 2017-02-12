@@ -1,0 +1,41 @@
+{
+  "name": "Gist",
+  "icon": "icon.png",
+  "blocks": {
+    "input": [
+      {
+        "id": "Gist",
+        "type": "PrefixScript",
+        "prefix": "gist",
+        "space": true,
+        "args": "Required",
+        "script": "src/gist.js",
+        "connections": ["Process"]
+      }
+    ],
+    "output": [
+      {
+        "id": "Process",
+        "type": "UserScript",
+        "script": "src/process.js",
+        "connections": ["Copy","Link","Notify"]
+      },
+      {
+        "id": "Copy",
+        "type": "CopyToClipboard",
+        "text": "{value}"
+      },
+      {
+        "id": "Link",
+        "type": "OpenInBrowser",
+        "url": "{value}"
+      },
+      {
+        "id": "Notify",
+        "type": "SendNotification",
+        "title": "Added to gist",
+        "message": "{value}"
+      }
+    ]
+  }
+}
