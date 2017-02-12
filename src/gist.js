@@ -1,15 +1,12 @@
-module.exports = (pluginContext) => {
-  return (query, env = {}) => {
-    const { cwd, console } = pluginContext
-    return new Promise((resolve, reject) => {
-      resolve([
-        {
-          icon: 'fa-github-alt',
-          title: query,
-          subtitle: 'Create gist from clipboard',
-          value: query,
-        }
-      ])
-    })
+module.exports = () => {
+  return (query) => {
+    return Promise.resolve([
+      {
+        icon: 'fa-github-alt',
+        title: 'Create gist from clipboard',
+        subtitle: query,
+        value: query,
+      }
+    ])
   }
 }
