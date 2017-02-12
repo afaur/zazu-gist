@@ -1,29 +1,29 @@
-const octo = require('octokat')
+const Octokat = require('octokat')
 module.exports = (pluginContext) => {
-  return {
-    respondsTo: (query) => {
-      return query.match(/\d/)
-    },
-    search: (query, env = {}) => {
-      return new Promise((resolve, reject) => {
-        const result = octo.gists.create({
-          "description":"Test Gist",
-          "public":false,
-          "files":{
-            "gistfile1.txt":{
-              "content":"Hello World"
-            }
-          }
-        })
-        resolve([
-          {
-            icon: 'fa-github-alt',
-            title: result,
-            subtitle: '',
-            value: '',
-          }
-        ])
-      })
-    },
+  return (query, env = {}) => {
+    const { cwd, console } = pluginContext
+    return new Promise((resolve, reject) => {
+      const clipboard = pluginContext.clipboard
+      const gist = clipboard.readText()
+      const octo = new Octokat({token: env.token})
+      const obj = {
+        "description":"Personal Gist",
+        "public":false,
+        "files":{
+        }
+      }
+      obj['files'][query] = {
+        "content": gist
+      }
+      const result = octo.gists.create(obj)
+      resolve([
+        {
+          icon: 'fa-github-alt',
+          title: result,
+          subtitle: '',
+          value: '',
+        }
+      ])
+    })
   }
 }

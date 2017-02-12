@@ -17,7 +17,7 @@
       {
         "id": "Process",
         "type": "UserScript",
-        "script": "src/process.js",
+        "script": "src/gistUpload.js",
         "connections": ["Copy","Link","Notify"]
       },
       {
